@@ -1,0 +1,39 @@
+SHOP STUDIO PRO — SMART CARD v13
+================================
+This patch updates the Smart Card section only. Other studios are retained.
+
+WORKFLOW
+1. Open an image or PDF page from Smart Card. A single crop rectangle is shown.
+2. Choose Output Size:
+   - Free (no forced aspect ratio)
+   - PVC 85.6 x 54 mm
+   - Aadhaar / PAN 85.6 x 54 mm
+   - Aadhaar Wide 6.74 x 2.125 in (171.196 x 53.975 mm)
+3. Adjust the rectangle using its eight handles or drag inside it to move.
+   1-Click Auto Detect retries edge detection where the OpenCV library is available.
+4. Perspective Crop switches to the four-corner editor only when clicked.
+5. Apply Crop changes only the main canvas; it does not save a side.
+6. Select Front / Back and click Apply & Save, or drag the cropped canvas
+   onto that side's preview. Each saved side is separate.
+7. Build Sheet creates an A4/6x4 sheet with dimensions based on saved card sizes,
+   preserving the existing interactive layout editor.
+8. 100% zoom fits the full image/page. Larger zoom values enable scrolling.
+
+TECHNICAL NOTES
+- Smart Card crop behavior is contained in smart-card-patch.js.
+- app-v11.5.0.js changes are limited to Smart Card upload auto-overlay removal
+  and the Smart Card sheet sizing/layout function.
+- styles.css only appends #cards-scoped rules.
+- index.html only modifies Smart Card preset/notice and cache-busting script URLs.
+- sw.js bumps the cache version to avoid stale browser copies.
+- Perspective correction and auto edge detection require OpenCV to load from CDN.
+- Crop resolution can never exceed the source's actual detail; higher DPI does
+  not invent new text detail. Exact physical printing requires actual-size printing.
+
+TESTING
+- Syntax checks and ZIP integrity were verified.
+- Headless Chromium in-memory smoke test verified 100/200% zoom, single-overlay
+  selection, regular crop, Aadhaar wide save size, A4 sheet proportions, and
+  manually opening perspective mode, without console page errors.
+- Real uploaded PDF/image files, OpenCV detection, touch gestures, and printer
+  hardware were not verified in this environment.
